@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+
+
+<head>
+<title>What will you write today?</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href='/images/favicon.png' rel='shortcut icon' />
+
+
+<link href="../css/bootstrap.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="../css/additional.css" media="screen" rel="stylesheet" type="text/css" />
+
+<script src='../lib/jquery-1.10.2.js'></script>
+
+<script src='../lib/jquery.autosize.js'></script>
+<script src='https://use.typekit.com/onu2kal.js' type='text/javascript'></script>
+
+
+
+</head>
+
+<body>
+<div id="wrap">
+<div class="container">
+<div class="page-header">
+<h1 id="date">{{date}} What will you write today? </h1>
+</div>
+
+  <div id="journal_form" class="col-md-10 col-md-offset-1">
+<form action="/autosave" method="post">  
+  <textarea cols="40" id="journaltext" name="journaltext" rows="20" >{{journaltext}}</textarea>
+</form>
+</div>
+</div>
+</div>
+  <div id="footer">
+  <div class="container">
+  <div id="result" class="hidden"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+    <div id="entry_body_counter" class="rounded" style="width:185px;">
+   <span id="save_message"></span> <span id="autosaving_indication" class="saved"></span>
+    <div id="counter">
+          <a href="./stats" class="count">0 words</a>
+
+    
+    </div>
+    </div>
+      <div style="font-weight: bold; line-height: 45px; padding-top: 20px;">
+    
+      <span>Inspired by <a href="https://750words.com">750 Words</a></span>
+      
+      
+</div>
+    
+    </div>
+  
+  </div>
+
+</body>
+</html>
+<script src='../lib/underscore.js'></script>
+<script src='../lib/backbone.js'></script>
+<script src="../lib/bootstrap.js"></script>
+<script src="../lib/jquery.textarea.js"></script>
+<script src='../scripts/basics.js'></script>
+<script>
+       $(function() {
+    App.model = new App.AllWords({id:{{journalid}},addeddate:"{{date}}"});
+    return App.folderview = new App.JournalForm({
+      model: App.model
+    });
+    
+  });
+App.jetOver750=false;
+
+</script>
+
