@@ -18,7 +18,7 @@ It counts all and shows shit
                         setTimeout(@autosave,7000) #every 7 sec
                         @sthchanged=false #we keep state of freshness, in case user opened two windows - it will update older state
                         @model.on({change:@journalchanged})
-                        @model.on
+                        @model.on({sync:@synchstring})
                         @maintext=$("#journaltext")
                         $('#journaltext').focus();
                         App.moveCursorToEnd(document.getElementById("journaltext"))
@@ -36,8 +36,8 @@ Model will be saved when focus is out or just new word entered.
                         "keypress #journaltext": "keypressed"
                         "focus window": "autosave"
                 journalchanged: =>
-                        #console.log("journal changed triggered")
-                        $("#journaltext").text(@model.get("allwords"))
+                        console.log("journal changed triggered")
+                        $("#journaltext").value(@model.get("allwords"))
                         $("#journaltext").trigger('autosize.resize')
                         @
                         
@@ -45,6 +45,7 @@ Model will be saved when focus is out or just new word entered.
                         @sthchanged=true
                         @countandsave
                 synchstring: =>
+                        
                         updatestring="Synced "+@model.get("noofwords")+ " at " +@currtime.getHours()+":"+ @currtime.getMinutes()
                         $("#save_message").text(updatestring)
                         @

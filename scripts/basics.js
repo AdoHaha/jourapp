@@ -91,7 +91,8 @@
     };
 
     JournalForm.prototype.journalchanged = function() {
-      $("#journaltext").text(this.model.get("allwords"));
+      console.log("journal changed triggered");
+      $("#journaltext").val(this.model.get("allwords"));
       $("#journaltext").trigger('autosize.resize');
       return this;
     };
