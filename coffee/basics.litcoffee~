@@ -18,6 +18,7 @@ It counts all and shows shit
                         setTimeout(@autosave,7000) #every 7 sec
                         @sthchanged=false #we keep state of freshness, in case user opened two windows - it will update older state
                         @model.on({change:@journalchanged})
+                        @model.on
                         @maintext=$("#journaltext")
                         $('#journaltext').focus();
                         App.moveCursorToEnd(document.getElementById("journaltext"))
@@ -51,7 +52,7 @@ Model will be saved when focus is out or just new word entered.
                         
                         setTimeout(@autosave,7000)
                         if not @sthchanged
-                                @model.fetch({success: @synchstring})
+                                @model.fetch()
                                 #console.log("will only fetch")
                         else
                                 @countandsave()
@@ -102,8 +103,8 @@ If enter, space or backspace is pressed, counting will be updated
                         result
                 backgroundmotivator: (noofwords)->
                         if noofwords<=750
-                             prop=Math.floor(200*(noofwords/750))
-                             $("body").css("background-color","rgb(255,"+(prop+55)+","+(prop+55)+")") 
+                             prop=Math.floor(255*(noofwords/750))
+                             $("body").css("background-color","rgb(255,"+(prop)+","+(prop)+")") 
                         else
                              $("body").css("background-color","#ffffff")
                              
@@ -115,7 +116,7 @@ If enter, space or backspace is pressed, counting will be updated
                        #save  
                         #console.log(result)
                         @model.set(result)  
-                        @model.save({success: @synchstring})
+                        @model.save()
                         @
                        
                 

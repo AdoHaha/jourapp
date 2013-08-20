@@ -69,6 +69,9 @@
       this.model.on({
         change: this.journalchanged
       });
+      this.model.on({
+        sync: this.synchstring
+      });
       this.maintext = $("#journaltext");
       $('#journaltext').focus();
       App.moveCursorToEnd(document.getElementById("journaltext"));
@@ -108,9 +111,7 @@
     JournalForm.prototype.autosave = function() {
       setTimeout(this.autosave, 7000);
       if (!this.sthchanged) {
-        this.model.fetch({
-          success: this.synchstring
-        });
+        this.model.fetch();
       } else {
         this.countandsave();
         this.autosavenr = this.model.get("noofwords");
@@ -181,9 +182,7 @@
       var result;
       result = this.count();
       this.model.set(result);
-      this.model.save({
-        success: this.synchstring
-      });
+      this.model.save();
       return this;
     };
 

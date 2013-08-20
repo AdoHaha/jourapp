@@ -18,6 +18,7 @@ It counts all and shows shit
                         setTimeout(@autosave,7000) #every 7 sec
                         @sthchanged=false #we keep state of freshness, in case user opened two windows - it will update older state
                         @model.on({change:@journalchanged})
+                        @model.on({sync:@synchstring})
                         @maintext=$("#journaltext")
                         $('#journaltext').focus();
                         App.moveCursorToEnd(document.getElementById("journaltext"))
@@ -51,7 +52,7 @@ Model will be saved when focus is out or just new word entered.
                         
                         setTimeout(@autosave,7000)
                         if not @sthchanged
-                                @model.fetch({success: @synchstring})
+                                @model.fetch()
                                 #console.log("will only fetch")
                         else
                                 @countandsave()
@@ -115,7 +116,7 @@ If enter, space or backspace is pressed, counting will be updated
                        #save  
                         #console.log(result)
                         @model.set(result)  
-                        @model.save({success: @synchstring})
+                        @model.save()
                         @
                        
                 
