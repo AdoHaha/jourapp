@@ -84,7 +84,6 @@
     };
 
     JournalForm.prototype.events = {
-      "focusout #journaltext": "probablyendend",
       "blur #journaltext": "probablyendend",
       "keypress #journaltext": "keypressed",
       "focus window": "autosave"

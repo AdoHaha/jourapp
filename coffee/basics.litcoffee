@@ -31,7 +31,7 @@ Model will be saved when focus is out or just new word entered.
 
                 events:
                         
-                        "focusout #journaltext":"probablyendend"
+                        #"focusout #journaltext":"probablyendend"
                         "blur #journaltext":"probablyendend"
                         "keypress #journaltext": "keypressed"
                         "focus window": "autosave"

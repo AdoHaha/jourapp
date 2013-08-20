@@ -37,7 +37,7 @@ Model will be saved when focus is out or just new word entered.
                         "focus window": "autosave"
                 journalchanged: =>
                         console.log("journal changed triggered")
-                        $("#journaltext").value(@model.get("allwords"))
+                        $("#journaltext").val(@model.get("allwords"))
                         $("#journaltext").trigger('autosize.resize')
                         @
                         
