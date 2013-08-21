@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from flask import Flask, request
+from subprocess import call
 import flask
 #from flask.ext.restful import reqparse, abort, Api, Resource
 import os
@@ -17,8 +18,12 @@ MAINFOLD=os.path.dirname(os.path.realpath(__file__))
 
 #flask.url_for('static', filename='style.css')
 DATABASE = MAINFOLD+'/db/journal.db'
-
+DROPBOXSTRING= "/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload "+DATABASE
 #HELPER functions from http://flask.pocoo.org/docs/patterns/sqlite3/
+def save_DB_to_Dropbox():
+        print DROPBOXSTRING
+        call([DROPBOXSTRING],shell=True)
+
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -64,6 +69,7 @@ def singlejournal(idd):
                 querystring='UPDATE journal SET allwords=?, noofwords = ? WHERE id=?'
                 cur = get_db().execute(querystring, [reqdict2["allwords"],reqdict2["noofwords"],idd])
                 get_db().commit()
+                save_DB_to_Dropbox()
                 return makeJournalDict("id",idd)
                                     
 @app.route("/")
@@ -75,11 +81,11 @@ def hello():
         
         if allwords is None:
             journaltext=""
-            querystring='INSERT INTO journal(addeddate) VALUES ("?")'
+            querystring='INSERT INTO journal(addeddate) VALUES (?)'
            
             res=query_db(querystring,[str(todaydate)])
             get_db().commit()
-            allwords = query_db('select * from journal where addeddate = "?"',
+            allwords = query_db('select * from journal where addeddate = ?',
                 [str(todaydate)], one=True)
             
         #else:
