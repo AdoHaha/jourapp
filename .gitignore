@@ -21,6 +21,11 @@
 
 *.sqlite
 
+
+# wildcards
+*~
+*.swp
+
 # OS generated files #
 ######################
 .DS_Store
