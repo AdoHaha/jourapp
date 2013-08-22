@@ -31,7 +31,7 @@ Model will be saved when focus is out or just new word entered.
 
                 events:
                         
-                        "focusout #journaltext":"probablyendend"
+                        #"focusout #journaltext":"probablyendend"
                         "blur #journaltext":"probablyendend"
                         "keypress #journaltext": "keypressed"
                         "focus window": "autosave"
@@ -70,14 +70,14 @@ Model will be saved when focus is out or just new word entered.
                         
                         @countwords()
                         
-If enter, space or backspace is pressed, counting will be updated
+If enter, space or backspace is pressed, model will be saved after max of 7s (autosave)
                 keypressed: (event) =>
                         @sthchanged=true
                         if (event.which ==32 || event.which==13 || event.which==8)
                                 
                                 @count()
                         @
-                        
+method to count all words, defined here as letters with whitespace in between
                 count: =>
                         words=$("#journaltext").val()
                         words2=words

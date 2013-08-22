@@ -21,8 +21,12 @@ DATABASE = MAINFOLD+'/db/journal.db'
 DROPBOXSTRING= "/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload "+DATABASE
 #HELPER functions from http://flask.pocoo.org/docs/patterns/sqlite3/
 def save_DB_to_Dropbox():
-        print DROPBOXSTRING
-        call([DROPBOXSTRING],shell=True)
+        try:
+        	call([DROPBOXSTRING],shell=True)
+	except:
+		logstr=str(datetime.date.today())+" "+"there was problem with dropbox \n"
+		command='echo "'+logstr+'" >> logproblems.txt'
+		call([command],shell=True)
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -49,15 +53,17 @@ class NotUnique(Exception):
         pass
         
         
-def makeJournalDict(arg,val,unique=True):
+def makeJournalDict(arg,val,unique=True,simple=False):
         allwords = query_db('select * from journal where '+arg+' = ?',
                 [val], one=False)
         if( unique and len(allwords)>1):
                 raise NotUnique("value it is unique, but it should")
         if allwords is None:
                         return 404
-        
-        return json.dumps({"id":allwords[0][0],"addeddate":allwords[0][1],"allwords":allwords[0][2],"noofwords":allwords[0][3],"userid":allwords[0][4]})
+        if simple:
+		return json.dumps({"id":allwords[0][0],"addeddate":allwords[0][1]})
+        else:
+		return json.dumps({"id":allwords[0][0],"addeddate":allwords[0][1],"allwords":allwords[0][2],"noofwords":allwords[0][3],"userid":allwords[0][4]})
 
 
 @app.route("/journals/<int:idd>",methods=['GET','PUT'])
@@ -70,7 +76,7 @@ def singlejournal(idd):
                 cur = get_db().execute(querystring, [reqdict2["allwords"],reqdict2["noofwords"],idd])
                 get_db().commit()
                 save_DB_to_Dropbox()
-                return makeJournalDict("id",idd)
+                return makeJournalDict("id",idd,True)
                                     
 @app.route("/")
 def hello():

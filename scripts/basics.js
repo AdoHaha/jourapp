@@ -144,11 +144,6 @@
       words2.replace(/[ ]{2,}/gi, " ");
       words2.replace(/\n /, "\n");
       noofwords = words2.split(' ').length;
-      if (noofwords > 0) {
-        $(this.el).find('textarea').css({
-          "border": "0"
-        });
-      }
       $(".count").text(noofwords + " " + "words");
       result = {
         allwords: words,

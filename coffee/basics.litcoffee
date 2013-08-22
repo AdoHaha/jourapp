@@ -70,14 +70,15 @@ Model will be saved when focus is out or just new word entered.
                         
                         @countwords()
                         
-If enter, space or backspace is pressed, counting will be updated
+If enter, space or backspace is pressed, model will be saved after max of 7s (autosave)
                 keypressed: (event) =>
                         @sthchanged=true
                         if (event.which ==32 || event.which==13 || event.which==8)
                                 
                                 @count()
                         @
-                        
+method to count all words, defined here as letters with whitespace in between.
+Than it will indicate that no of words changed, change color of background and show reward if over 750 words was written. 
                 count: =>
                         words=$("#journaltext").val()
                         words2=words
@@ -86,8 +87,8 @@ If enter, space or backspace is pressed, counting will be updated
                         words2.replace(/\n /,"\n");
                         noofwords=words2.split(' ').length
                         #show
-                        if noofwords>0
-                                $(@el).find('textarea').css({"border": "0"})
+                        #if noofwords>0
+                        #        $(@el).find('textarea').css({"border": "0"})
                         $(".count").text(noofwords+" "+"words")
                         result={allwords:words,noofwords:noofwords}
                         #console.log(result)
@@ -102,6 +103,7 @@ If enter, space or backspace is pressed, counting will be updated
                                 $("#result").alert()
                                 App.jetOver750=true
                         result
+Method below changes background from red to white, depending of
                 backgroundmotivator: (noofwords)->
                         if noofwords<=750
                              prop=Math.floor(255*(noofwords/750))
