@@ -4,7 +4,7 @@ from subprocess import call
 import flask
 #from flask.ext.restful import reqparse, abort, Api, Resource
 import os
-
+from helperpython.throttle import throttle
 from flask import g
 
 import sqlite3
@@ -20,6 +20,8 @@ MAINFOLD=os.path.dirname(os.path.realpath(__file__))
 DATABASE = MAINFOLD+'/db/journal.db'
 DROPBOXSTRING= "/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload "+DATABASE
 #HELPER functions from http://flask.pocoo.org/docs/patterns/sqlite3/
+
+@throttle(25) #every twenty fife seconds
 def save_DB_to_Dropbox():
         try:
         	call([DROPBOXSTRING],shell=True)
